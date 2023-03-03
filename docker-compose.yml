@@ -1,0 +1,23 @@
+# version of the Docker Compose syntax we are using
+version: "3.9"
+
+# services required for our application
+services:
+  # name of service that is going to run our Dockerfile
+  app:
+    build:
+      # build our Dockerfile in the current directory
+      context: .
+      # set a build argument for development
+      args:
+        - DEV=true
+    # map port 8000 on machine to 8000 on Docker Container
+    ports:
+      - "8000:8000"
+    # map app directory in our project to the same app folder in the container 
+    # we want the code to be automatically synced to the same location each time
+    volumes:
+      - ./app:/app
+    # this command will run the service
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
