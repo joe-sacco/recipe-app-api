@@ -1,3 +1,6 @@
+# this file automates tests to be run 
+# each time a file is pushed to github
+
 name: Checks
 
 on: 
