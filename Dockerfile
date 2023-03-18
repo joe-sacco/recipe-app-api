@@ -27,6 +27,9 @@ ARG DEV=false
 RUN python -m venv /py && \
     # specify full path of virtual env
     /py/bin/pip install --upgrade pip && \
+    apk add --update --no-cache postgresql-client && \
+    apk add --update --no-cache --virtual .tmp-build-deps \
+        build-base postgresql-dev musl-dev && \
     # install requirements file
     /py/bin/pip install -r /tmp/requirements.txt && \
     # if dev set to true run then code

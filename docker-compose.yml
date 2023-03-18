@@ -21,3 +21,29 @@ services:
     # this command will run the service
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
+    # tell app how to connect to db
+    environment:
+      - DB_HOST=db
+      - DB_NAME=devdb
+      - DB_USER=devuser
+      - DB_PASS=changeme
+    # app service depends on db service being started
+    depends_on:
+      - db
+  
+  # set up db
+  db: 
+    image: postgres:13-alpine
+    volumes:
+      - dev-db-data:/var/lib/postgresql/data
+      # set initial configuration for new db service
+      # when db first starts it will create a new db with the following info
+      # below is only for development, not deployement
+    environment:
+      - POSTGRES_DB=devdb
+      - POSTGRES_USER=devuser
+      - POSTGRES_PASSWORD=changeme
+
+# set up persistent data volumes
+volumes:
+  dev-db-data:
